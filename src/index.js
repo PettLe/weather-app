@@ -91,7 +91,6 @@ async function getWeather(city) {
     }
 
     const currentWeather = await response.json();
-    console.log(currentWeather.list);
     for (let i = 0; i < 5; i++) {
       const weatherIcon = currentWeather.list[i].weather[0].icon;
       const windSpeed = currentWeather.list[i].wind.speed;
@@ -108,7 +107,6 @@ async function getWeather(city) {
         time,
         weatherDesc
       );
-      console.log(cityChoice);
       renderWeather(cityChoice, city);
     }
   } catch {
@@ -136,7 +134,6 @@ async function getWeatherLong(city) {
     }
 
     const currentWeather = await response.json();
-    console.log(currentWeather.list);
     for (let i = 0; i < 40; i += 8) {
       const weatherIcon = currentWeather.list[i].weather[0].icon;
       const windSpeed = currentWeather.list[i].wind.speed;
@@ -153,7 +150,6 @@ async function getWeatherLong(city) {
         time,
         weatherDesc
       );
-      console.log(cityChoice);
       renderWeather(cityChoice, city);
     }
   } catch {
