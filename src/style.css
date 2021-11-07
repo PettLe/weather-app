@@ -48,7 +48,6 @@
 
 #mainContent {
   display: flex;
-  /*flex-direction: column;*/
   align-items: center;
   justify-content: center;
   gap: 3vw;
@@ -60,14 +59,36 @@
   justify-content: center;
 }
 
+a {
+  color: #044a6d;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
 #weatherHeader {
   display: flex;
-  /*min-width: 100%;*/
   justify-content: first baseline;
 }
 
 .weatherImg {
   width: 75px;
+}
+
+#pTime {
+  font-weight: 700;
+}
+
+#cityInput {
+  border-radius: 5px;
+  border: 1px solid rgb(105, 105, 105);
+  box-shadow: 2px 2px 2px rgb(105, 105, 105);
+}
+
+#btn,
+#btn2 {
+  border-radius: 5px;
+  padding: 0.5vh 1vh 0.5vh 1vh;
+  font-weight: 700;
 }
 
 footer {

@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 /* eslint-disable no-alert */
 import "regenerator-runtime/runtime";
 import "./style.css";
@@ -6,17 +7,40 @@ function renderWeather(weatherObject, city) {
   const container = document.getElementById("mainContent");
 
   const pTemp = document.createElement("p");
-  pTemp.textContent = `Temperature is ${weatherObject.temp} celsius`;
+  pTemp.innerHTML = `Temperature is <strong>${weatherObject.temp}</strong> celsius`;
 
   const weatherImg = document.createElement("img");
   weatherImg.classList.add("weatherImg");
   weatherImg.src = `http://openweathermap.org/img/w/${weatherObject.clouds}.png`;
 
   const pTime = document.createElement("p");
+  pTime.id = "pTime";
   pTime.textContent = `${weatherObject.time}`;
 
+  const compassSector = [
+    "N",
+    "NNE",
+    "NE",
+    "ENE",
+    "E",
+    "ESE",
+    "SE",
+    "SSE",
+    "S",
+    "SSW",
+    "SW",
+    "WSW",
+    "W",
+    "WNW",
+    "NW",
+    "NNW",
+    "N",
+  ];
+  const windDirection =
+    compassSector[(weatherObject.windDeg / 22.5).toFixed(0)];
+
   const pDesc = document.createElement("p");
-  pDesc.textContent = `There will be ${weatherObject.rain}`;
+  pDesc.innerHTML = `There will be <u><em>${weatherObject.rain}</em></u>, <br>and the wind blows <strong>${windDirection} ${weatherObject.wind}</strong> m/s`;
 
   const weatherContainer = document.createElement("div");
   weatherContainer.id = "weatherContainer";
@@ -26,7 +50,9 @@ function renderWeather(weatherObject, city) {
   weatherHeader.id = "weatherHeader";
   const headerCity = document.createElement("h2");
   headerCity.classList.add("headerList");
-  headerCity.textContent = city;
+  headerCity.textContent = city
+    .toLowerCase()
+    .replace(/\w/, (firstLetter) => firstLetter.toUpperCase());
   weatherHeader.appendChild(headerCity);
 
   weatherInfo.appendChild(pTime);
@@ -35,7 +61,6 @@ function renderWeather(weatherObject, city) {
   weatherInfo.appendChild(weatherImg);
   weatherContainer.appendChild(weatherHeader);
   weatherContainer.appendChild(weatherInfo);
-  //  container.appendChild(weatherHeader);
 
   const headerList = document.querySelectorAll("#weatherContainer");
   for (let j = 0; j < headerList.length; j++) {
@@ -46,26 +71,10 @@ function renderWeather(weatherObject, city) {
   container.appendChild(weatherContainer);
 }
 
-//  function getCity() {
-//    let city = "";
-//    const form = document.querySelector("form");
-//    form.addEventListener("submit", () => {
-//      city = form.value;
-//    });
-//  }
-
-async function getWeatherLong(city) {
-  // let city = "Helsinki";
-  // const form = document.querySelector("form");
-  // form.addEventListener("submit", (event) => {
-  //  event.preventDefault();
-  //  city = form.value;
-  //  console.log(city);
-  // });
+async function getWeather(city) {
   try {
-    //  const city = prompt("City?");
     const response = await fetch(
-      `http://api.openweathermap.org/data/2.5/forecast?q=${city}&&units=metric&cnt=5&APPID=82d857531cd7e980cf7eb2bfca144bfb`,
+      `http://api.openweathermap.org/data/2.5/forecast?q=${city}&&units=metric&APPID=82d857531cd7e980cf7eb2bfca144bfb`,
       // eslint-disable-next-line comma-dangle
       { mode: "cors" }
     );
@@ -81,11 +90,6 @@ async function getWeatherLong(city) {
       }
     }
 
-    // const headerCity = document.createElement("h2");
-    // headerCity.textContent = city;
-    // const weatherContainer = document.getElementById("weathercontainer");
-    // weatherContainer.appendChild(headerCity);
-
     const currentWeather = await response.json();
     console.log(currentWeather.list);
     for (let i = 0; i < 5; i++) {
@@ -95,18 +99,6 @@ async function getWeatherLong(city) {
       const weatherDesc = currentWeather.list[i].weather[0].description;
       const { temp } = currentWeather.list[i].main;
       const time = currentWeather.list[i].dt_txt;
-
-      //  console.log(windSpeed);
-      //  console.log(windDeg);
-      //  console.log(weatherDesc);
-      //  console.log(`${temp} celsius`);
-      //  console.log(time);
-
-      //  const container = document.getElementById("container");
-      //  const weatherImg = document.createElement("img");
-      //  weatherImg.classList.add("weatherImg");
-      //  weatherImg.src = `http://openweathermap.org/img/w/${weatherIcon}.png`;
-      //  container.appendChild(weatherImg);
 
       const cityChoice = new Weather(
         temp,
@@ -119,12 +111,55 @@ async function getWeatherLong(city) {
       console.log(cityChoice);
       renderWeather(cityChoice, city);
     }
-    //  console.log(`${kokeilu.temp} celsius`);
   } catch {
     alert("City not found. Try again!");
   }
 }
 
+async function getWeatherLong(city) {
+  try {
+    const response = await fetch(
+      `http://api.openweathermap.org/data/2.5/forecast?q=${city}&&units=metric&APPID=82d857531cd7e980cf7eb2bfca144bfb`,
+      // eslint-disable-next-line comma-dangle
+      { mode: "cors" }
+    );
+
+    class Weather {
+      constructor(temp, clouds, wind, windDeg, time, rain) {
+        this.temp = temp;
+        this.clouds = clouds;
+        this.wind = wind;
+        this.windDeg = windDeg;
+        this.time = time;
+        this.rain = rain; // Weather description?
+      }
+    }
+
+    const currentWeather = await response.json();
+    console.log(currentWeather.list);
+    for (let i = 0; i < 40; i += 8) {
+      const weatherIcon = currentWeather.list[i].weather[0].icon;
+      const windSpeed = currentWeather.list[i].wind.speed;
+      const windDeg = currentWeather.list[i].wind.deg;
+      const weatherDesc = currentWeather.list[i].weather[0].description;
+      const { temp } = currentWeather.list[i].main;
+      const time = currentWeather.list[i].dt_txt;
+
+      const cityChoice = new Weather(
+        temp,
+        weatherIcon,
+        windSpeed,
+        windDeg,
+        time,
+        weatherDesc
+      );
+      console.log(cityChoice);
+      renderWeather(cityChoice, city);
+    }
+  } catch {
+    alert("City not found. Try again!");
+  }
+}
 async function runAll() {
   const button = document.getElementById("btn");
   button.addEventListener("click", async (event) => {
@@ -132,8 +167,14 @@ async function runAll() {
     content.innerHTML = "";
     const city = document.getElementById("cityInput").value;
     event.preventDefault();
-    // const city = "Helsinki";
-    // await getCity();
+    await getWeather(city);
+  });
+  const button2 = document.getElementById("btn2");
+  button2.addEventListener("click", async (event) => {
+    const content = document.getElementById("mainContent");
+    content.innerHTML = "";
+    const city = document.getElementById("cityInput").value;
+    event.preventDefault();
     await getWeatherLong(city);
   });
 }
