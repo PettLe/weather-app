@@ -2,28 +2,6 @@
 import "regenerator-runtime/runtime";
 import "./style.css";
 
-/* async function getWeather() {
-  const city = prompt("City?");
-  const response = await fetch(
-    `http://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=82d857531cd7e980cf7eb2bfca144bfb`,
-    // eslint-disable-next-line comma-dangle
-    { mode: "cors" }
-  );
-  const currentWeather = await response.json();
-  console.log(currentWeather);
-  //  const clouds = await currentWeather.weather[0];
-  //  console.log(clouds);
-  const weatherIcon = await currentWeather.weather[0].icon;
-
-  const temp = await currentWeather.main.temp;
-  console.log(`${(temp - 273).toFixed(1)} celsius`);
-
-  const container = document.getElementById("container");
-  const img = document.createElement("img");
-  img.src = `http://openweathermap.org/img/w/${weatherIcon}.png`;
-  container.appendChild(img);
-} */
-
 function renderWeather(weatherObject, city) {
   const container = document.getElementById("mainContent");
 
@@ -68,9 +46,24 @@ function renderWeather(weatherObject, city) {
   container.appendChild(weatherContainer);
 }
 
-async function getWeatherLong() {
+//  function getCity() {
+//    let city = "";
+//    const form = document.querySelector("form");
+//    form.addEventListener("submit", () => {
+//      city = form.value;
+//    });
+//  }
+
+async function getWeatherLong(city) {
+  // let city = "Helsinki";
+  // const form = document.querySelector("form");
+  // form.addEventListener("submit", (event) => {
+  //  event.preventDefault();
+  //  city = form.value;
+  //  console.log(city);
+  // });
   try {
-    const city = prompt("City?");
+    //  const city = prompt("City?");
     const response = await fetch(
       `http://api.openweathermap.org/data/2.5/forecast?q=${city}&&units=metric&cnt=5&APPID=82d857531cd7e980cf7eb2bfca144bfb`,
       // eslint-disable-next-line comma-dangle
@@ -115,7 +108,7 @@ async function getWeatherLong() {
       //  weatherImg.src = `http://openweathermap.org/img/w/${weatherIcon}.png`;
       //  container.appendChild(weatherImg);
 
-      const kokeilu = new Weather(
+      const cityChoice = new Weather(
         temp,
         weatherIcon,
         windSpeed,
@@ -123,8 +116,8 @@ async function getWeatherLong() {
         time,
         weatherDesc
       );
-      console.log(kokeilu);
-      renderWeather(kokeilu, city);
+      console.log(cityChoice);
+      renderWeather(cityChoice, city);
     }
     //  console.log(`${kokeilu.temp} celsius`);
   } catch {
@@ -132,5 +125,17 @@ async function getWeatherLong() {
   }
 }
 
-// getWeather();
-getWeatherLong();
+async function runAll() {
+  const button = document.getElementById("btn");
+  button.addEventListener("click", async (event) => {
+    const content = document.getElementById("mainContent");
+    content.innerHTML = "";
+    const city = document.getElementById("cityInput").value;
+    event.preventDefault();
+    // const city = "Helsinki";
+    // await getCity();
+    await getWeatherLong(city);
+  });
+}
+
+runAll();

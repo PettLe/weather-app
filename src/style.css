@@ -20,7 +20,7 @@
   position: relative;
   display: block;
   width: calc(100% + 1.3px);
-  height: 167px;
+  height: 267px;
 }
 
 .custom-shape-divider-top-1636188883 .shape-fill {
@@ -37,9 +37,13 @@
 
 .header {
   display: flex;
+  flex-direction: column;
   width: 100%;
   min-height: 20%;
+  padding: 3vh;
   justify-content: center;
+  align-items: center;
+  gap: 2vh;
 }
 
 #mainContent {
@@ -59,9 +63,18 @@
 #weatherHeader {
   display: flex;
   /*min-width: 100%;*/
-  justify-content: center;
+  justify-content: first baseline;
 }
 
 .weatherImg {
   width: 75px;
+}
+
+footer {
+  background-color: #7fcdf3;
+  width: 100vw;
+  height: 9vh;
+  text-align: center;
+  padding-top: 3vh;
+  margin-top: auto;
 }
