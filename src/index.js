@@ -11,7 +11,7 @@ function renderWeather(weatherObject, city) {
 
   const weatherImg = document.createElement("img");
   weatherImg.classList.add("weatherImg");
-  weatherImg.src = `http://openweathermap.org/img/w/${weatherObject.clouds}.png`;
+  weatherImg.src = `https://openweathermap.org/img/w/${weatherObject.clouds}.png`;
 
   const pTime = document.createElement("p");
   pTime.id = "pTime";
