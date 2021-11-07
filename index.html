@@ -27,9 +27,21 @@
       </svg>
     </div>
     <div id="container">
-      <div class="header"><h1>Weather Forecast</h1></div>
+      <div class="header">
+        <h1>Weather Forecast</h1>
+        <br />
+        <form>
+          <label for="city">City: </label>
+          <input type="text" id="cityInput" />
+          <!--<input type="submit" value="Update" />-->
+        </form>
+        <button id="btn">Update</button>
+        <br />
+      </div>
       <div id="mainContent"></div>
+      <footer>Copyright &copy; Petteri Leino, 2021</footer>
     </div>
+
     <script src="main.js"></script>
   </body>
 </html>
