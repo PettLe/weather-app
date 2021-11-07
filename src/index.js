@@ -74,7 +74,7 @@ function renderWeather(weatherObject, city) {
 async function getWeather(city) {
   try {
     const response = await fetch(
-      `http://api.openweathermap.org/data/2.5/forecast?q=${city}&&units=metric&APPID=82d857531cd7e980cf7eb2bfca144bfb`,
+      `https://api.openweathermap.org/data/2.5/forecast?q=${city}&&units=metric&APPID=82d857531cd7e980cf7eb2bfca144bfb`,
       // eslint-disable-next-line comma-dangle
       { mode: "cors" }
     );
@@ -117,7 +117,7 @@ async function getWeather(city) {
 async function getWeatherLong(city) {
   try {
     const response = await fetch(
-      `http://api.openweathermap.org/data/2.5/forecast?q=${city}&&units=metric&APPID=82d857531cd7e980cf7eb2bfca144bfb`,
+      `https://api.openweathermap.org/data/2.5/forecast?q=${city}&&units=metric&APPID=82d857531cd7e980cf7eb2bfca144bfb`,
       // eslint-disable-next-line comma-dangle
       { mode: "cors" }
     );
